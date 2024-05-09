@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import WeatherHighlight from "./WeatherHighlight";
 import WeatherToda from "./WeatherToda";
+
 const WeatherApp = () => {
   const [location, setLocation] = useState(" ");
   const [weatherData, setWeatherData] = useState(null);
@@ -11,6 +12,7 @@ const WeatherApp = () => {
       try {
         const response = await axios.get(`https://ipapi.co/json/`);
         const data = response.data;
+        console.log(data);
 
         setLocation(data.city || "Enter a Location");
       } catch (error) {
@@ -21,10 +23,13 @@ const WeatherApp = () => {
     fetchData();
   }, []);
 
+  // const api_key = process.env.API_KEY;
+  const api_key = import.meta.env.VITE_APP_API_KEY;
+  // console.log(process.env);
   const handlesearch = async () => {
     try {
       const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=f3520c6ce04c7c5786cfecab3c31b065`
+        `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${api_key}`
       );
       const data = response.data;
       setWeatherData(data);
